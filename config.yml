@@ -1,10 +1,29 @@
-logfile: /path/to/logfile
-env: ENV_VARIABLES
-password-command: /Command used to fetch repostory password
-repo: /path/to/repo
-restic-path: /usr/bin/restic
-exclude-file: /path/to/exclude/file
+# Sample config for b2 storage backend with rclone + macOS
+
+# Path to the logfile
+logfile: /var/log/restic-automator.log
+
+# Enviornment variable that will be passed to restic 
+env: PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+
+# Command used to retrieve repository password, alternatively just echo the password 
+password-command: /usr/bin/security find-generic-password -a {username} -l {keychainitem} -w
+
+# The path to restic repo
+repo: "rclone:b2:b2-bucket/backup-folder"
+
+# Path to the restic executable
+restic-path: /opt/homebrew/bin/restic
+
+# Path to the exclude file, patterns defined in the exclusion file will be passed to restic
+exclude-file: ./restic-exclude.txt
+
+# List of directories to watch
 jobs:
-  - name: path-name
-    dir: /path/to/folder/for/backup
-    throttle: 120 
+  - name: Documents # Name (doesn't need to be same as directory name)
+    dir: /Users/{username}/Documents # Path to the directory for watching
+    throttle: 120 # Interval in seconds before the next backup is triggered
+    
+  - name: Developer
+    dir: /Users/{username}/Developer
+    throttle: 180
