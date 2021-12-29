@@ -1,0 +1,10 @@
+logfile: /path/to/logfile
+env: ENV_VARIABLES
+password-command: /Command used to fetch repostory password
+repo: /path/to/repo
+restic-path: /usr/bin/restic
+exclude-file: /path/to/exclude/file
+jobs:
+  - name: path-name
+    dir: /path/to/folder/for/backup
+    throttle: 120 
